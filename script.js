@@ -32,30 +32,97 @@ WWTBAM.questions = [
 
 WWTBAM.nextQuestion = function() {
 
-	this.Qnum = this.Qnum + 1;
+	WWTBAM.Qnum = WWTBAM.Qnum + 1;
 	
 	var total = WWTBAM.questions.length;
 	
-	console.log(total);
+	if(WWTBAM.Qnum < total) WWTBAM.askQuestion(WWTBAM.Qnum);
 	
-	if(this.Qnum < total) WWTBAM.askQuestion(this.Qnum);
+	else {
 	
-	WWTBAM.bank.innerHTML = 'Balance : £1m';
-	WWTBAM.questionBox.innerHTML = "You're a millionaire";
-	WWTBAM.answers.style.display = 'none';
-	WWTBAM.restart.style.display = 'inline-block';
-	WWTBAM.questionNumber.style.display = 'none';
-	WWTBAM.lifeLine.style.display = 'none';
+		WWTBAM.bank.innerHTML = 'Balance : £1m';
+		WWTBAM.questionBox.innerHTML = "You're a millionaire";
+		WWTBAM.reset();
+	
+	}
 	
 }
 
 WWTBAM.askQuestion = function(counterNum) {
 
 	WWTBAM.questionBox.innerHTML = WWTBAM.questions[counterNum][0];
+	WWTBAM.questionNumber.innerHTML = 'Question number ' + (counterNum + 1);
 	
-	console.log(counterNum);
+	WWTBAM.answers.innerHTML = '';
+	
+	var i = 0;
+	while (i < 4) {
+	
+    	WWTBAM.answers.innerHTML =  WWTBAM.answers.innerHTML + '<li class="answer-li" data-answer=' + WWTBAM.questions[counterNum][1][i].replace(/ /g,'') + '>' + WWTBAM.questions[counterNum][1][i] + '</li>';
+    	i++;
+    	
+	}
+	
+	WWTBAM.bank.innerHTML = 'Balance : £' + WWTBAM.questions[counterNum][3];
+	
+	WWTBAM.correctAnswer = WWTBAM.questions[counterNum][2];
+	WWTBAM.correctAnswer = WWTBAM.correctAnswer.replace(/ /g,'').toLowerCase();
+	
+	// Unsure how this bit is done with JS
+	$('#answers li').on('click', WWTBAM.answerQuestion);
+	
+	//restart.click(reStart);
+	
+	WWTBAM.restart.addEventListener('click', WWTBAM.reStart);
 
 }
+
+WWTBAM.answerQuestion = function() {
+
+	// Unsure how this bit is done with JS
+	$('.answers li').off();
+	
+	var UserAnswer = $(this).data('answer').replace(/ /g,'').toLowerCase();
+	
+	if (UserAnswer == WWTBAM.correctAnswer) {
+		
+		WWTBAM.nextQuestion();
+			
+	}
+	
+	else {
+	
+		WWTBAM.bank.innerHTML = 'Balance : £0';
+		WWTBAM.questionBox.innerHTML = "Sorry you've lost your money";
+		WWTBAM.reset();
+	
+	}
+
+}
+
+WWTBAM.reStart = function() {
+
+	WWTBAM.Qnum = -1;
+	
+	WWTBAM.answers.style.display = 'block';
+	WWTBAM.restart.style.display = 'block';
+	WWTBAM.questionNumber.style.display = 'inline-block';
+	
+	WWTBAM.nextQuestion();
+	
+	
+
+}
+
+
+WWTBAM.reset = function() {
+
+	WWTBAM.answers.style.display = 'none';
+	WWTBAM.restart.style.display = 'inline-block';
+	WWTBAM.questionNumber.style.display = 'none';
+
+}
+
 
 
 // Start the quiz
