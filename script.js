@@ -71,8 +71,6 @@ WWTBAM.askQuestion = function(counterNum) {
 	// Unsure how this bit is done with JS
 	$('#answers li').on('click', WWTBAM.answerQuestion);
 	
-	//restart.click(reStart);
-	
 	WWTBAM.restart.addEventListener('click', WWTBAM.reStart);
 
 }
