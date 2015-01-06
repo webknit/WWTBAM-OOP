@@ -29,3 +29,34 @@ WWTBAM.questions = [
 	 ['Who is the patron saint of Spain?',['Saint James','Saint John','Saint Benedict','Saint Peter'] ,'Saint John', 150000],
 	 ['Which king was married to Eleanor of Aquitaine?',['Henry I','Henry II','Richard I','Henry V'] ,'Henry II', 1000000]
 ];
+
+WWTBAM.nextQuestion = function() {
+
+	this.Qnum = this.Qnum + 1;
+	
+	var total = WWTBAM.questions.length;
+	
+	console.log(total);
+	
+	if(this.Qnum < total) WWTBAM.askQuestion(this.Qnum);
+	
+	WWTBAM.bank.innerHTML = 'Balance : £1m';
+	WWTBAM.questionBox.innerHTML = "You're a millionaire";
+	WWTBAM.answers.style.display = 'none';
+	WWTBAM.restart.style.display = 'inline-block';
+	WWTBAM.questionNumber.style.display = 'none';
+	WWTBAM.lifeLine.style.display = 'none';
+	
+}
+
+WWTBAM.askQuestion = function(counterNum) {
+
+	WWTBAM.questionBox.innerHTML = WWTBAM.questions[counterNum][0];
+	
+	console.log(counterNum);
+
+}
+
+
+// Start the quiz
+WWTBAM.nextQuestion();
